@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FunExplorerBot.Model;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 
 namespace FunExplorerBot.Dialogs
@@ -24,9 +26,15 @@ namespace FunExplorerBot.Dialogs
 
             // return our reply to the user
             await context.PostAsync($"You sent {activity.Text} which was {length} characters");
-
-            context.Wait(MessageReceivedAsync);
+            context.Call(Util.Helper.MakeEventDialog(), ResumeAfterNewEventDialog );       
             
+        }
+
+        private async Task ResumeAfterNewEventDialog(IDialogContext context, IAwaitable<Event> result)
+        {
+            var ev = await result;
+            await context.PostAsync($"You just completed your event creation. location: {ev.Location} ");
+            context.Wait(MessageReceivedAsync);
         }
     }
 }

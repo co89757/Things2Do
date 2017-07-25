@@ -12,7 +12,12 @@ namespace FunExplorerBot.Util
     {
         internal static IDialog<Event> MakeEventDialog()
         {
-            return Chain.From(() => FormDialog.FromForm(Event.BuildForm));
+            return Chain.From(() => FormDialog.FromForm(Event.BuildForm, FormOptions.PromptInStart));
+        }
+
+        internal static IDialog<EventQuery> MakeEventQueryDialog()
+        {
+            return Chain.From(() => FormDialog.FromForm(EventQuery.BuildForm, FormOptions.PromptInStart));
         }
     }
 }

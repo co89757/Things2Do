@@ -10,15 +10,13 @@ namespace FunExplorerBot.Model
     [Serializable]
     public class EventQuery
     {
-        public static IForm<EventQuery> BuildForm()
-        {
-            return new FormBuilder<EventQuery>().Message("Get ready to search some fun!").Build();
-        }
+        
             
         [Prompt("What types of events are you interested in? {||} ")]
         public List<EventType> EventTypes;
-        [Prompt("Choose tags you want to query")]
-        public List<string> Tags;
+        [Prompt("Choose tags you want to query {||}")]
+       
+        public List<Tag> Tags;
 
     }
 }

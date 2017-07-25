@@ -8,9 +8,9 @@ namespace FunExplorerBot.Model
 {
     public enum EventType
     {
-        Eat,
-        Sports,
-        Game,
+        Eat = 1,
+        Sports = 2,
+        Game = 3,
     }
 
     [Serializable]
@@ -24,7 +24,7 @@ namespace FunExplorerBot.Model
                 .Build();
 
         }
-        [Prompt("What is the type of your event?")]
+        [Prompt("What is the type of your event? {||} ")]
         public EventType Type;
         [Prompt("When do you plan to start this event?")]
         public DateTime Time;
@@ -32,5 +32,10 @@ namespace FunExplorerBot.Model
         public DateTimeOffset Duration;
         [Prompt("Where do you want to have this event?")]
         public string Location;
+        [Prompt("How would you describle your event?")]
+        public string Description;
+        [Prompt("Add tags for this event to help others find you!")]
+        public List<string> Tags;
+
     }
 }

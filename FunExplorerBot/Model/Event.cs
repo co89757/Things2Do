@@ -13,17 +13,21 @@ namespace FunExplorerBot.Model
         Game = 3,
     }
 
+    public enum Tag
+    {
+        Movie = 1,
+        Football,
+        PingPong,
+        Cardgame,
+        Food,
+        Basketball
+    }
+
     [Serializable]
     public class Event
     {
 
-        public static IForm<Event> BuildForm()
-        {
-            return new FormBuilder<Event>()
-                .Message("Get ready to create your event!")
-                .Build();
-
-        }
+        
         [Prompt("What is the type of your event? {||} ")]
         public EventType Type;
         [Prompt("When do you plan to start this event?")]
@@ -34,8 +38,8 @@ namespace FunExplorerBot.Model
         public string Location;
         [Prompt("How would you describle your event?")]
         public string Description;
-        [Prompt("Add tags for this event to help others find you!")]
-        public List<string> Tags;
+        [Prompt("Add tags for this event to help others find you!{||}")]
+        public List<Tag> Tags;
 
     }
 }

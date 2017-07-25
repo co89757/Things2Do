@@ -49,11 +49,11 @@ namespace FunExplorerBot.Dialogs
                 switch (optionSelected)
                 {
                     case CreateEventOption:
-                        context.Call(Util.Helper.MakeEventDialog()   , this.ResumeAfterOptionDialog);
+                        context.Call( new EventCreateDialog()  , this.ResumeAfterOptionDialog);
                         break;
 
                     case SearchEventOption:
-                        context.Call(Util.Helper.MakeEventQueryDialog(), this.ResumeAfterOptionDialog);
+                        context.Call(new EventSearchDialog(), this.ResumeAfterOptionDialog);
                         break;
                 }
             }
@@ -70,6 +70,7 @@ namespace FunExplorerBot.Dialogs
             try
             {
                 var message = await result;
+                await context.PostAsync("Great! we have completed your request");
             }
             catch (Exception ex)
             {

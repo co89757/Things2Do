@@ -10,14 +10,6 @@ namespace FunExplorerBot.Util
 {
     public static class Helper
     {
-        internal static IDialog<Event> MakeEventDialog()
-        {
-            return Chain.From(() => FormDialog.FromForm(Event.BuildForm, FormOptions.PromptInStart));
-        }
-
-        internal static IDialog<EventQuery> MakeEventQueryDialog()
-        {
-            return Chain.From(() => FormDialog.FromForm(EventQuery.BuildForm, FormOptions.PromptInStart));
-        }
+        
     }
 }

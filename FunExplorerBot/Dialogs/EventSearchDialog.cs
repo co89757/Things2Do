@@ -25,6 +25,7 @@ namespace FunExplorerBot.Dialogs
 
             return new FormBuilder<EventQuery>()
                 .Message("Get ready to create your event!")
+                .Field(nameof(EventQuery.EventType))
                 .OnCompletion( processEventSearch )
                 .Build();
         }
@@ -38,6 +39,11 @@ namespace FunExplorerBot.Dialogs
         private async Task ResumeEventSearchFormDialog(IDialogContext context, IAwaitable<EventQuery> result)
         {
             //TODO show available events
+            EventQuery query = await result;
+            query.ChanelId = context.Activity.ChannelId;
+            var rd = new RedisManager();
+            var x = rd.Cache.SetLength(query.ToKey());
+            await context.PostAsync($"We found {x} events matching your search!");
             context.Done<object>(null);
         }
     }

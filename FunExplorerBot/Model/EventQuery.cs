@@ -13,10 +13,14 @@ namespace FunExplorerBot.Model
         
             
         [Prompt("What types of events are you interested in? {||} ")]
-        public List<EventType> EventTypes;
-        [Prompt("Choose tags you want to query {||}")]
-       
-        public List<Tag> Tags;
+        public EventType EventType;
+
+        public string ChanelId;
+
+        public string ToKey()
+        {
+            return $"{ChanelId}:{EventType}";
+        }
 
     }
 }

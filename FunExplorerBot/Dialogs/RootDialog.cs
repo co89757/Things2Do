@@ -12,10 +12,10 @@ namespace FunExplorerBot.Dialogs
     {
         public const string CreateEventOption = "CreateEvent";
         public const string SearchEventOption = "SearchEvent";
-
+        public const string KeyEventCreatorId = "EventCreatorId";
         public async Task StartAsync(IDialogContext context)
         {
-           // await context.PostAsync("Welcome to the fun explorer bot! How may I help you?");
+            await context.PostAsync("Welcome to the fun explorer bot! How may I help you?");
             context.Wait(MessageReceivedAsync);           
         }
 
@@ -23,7 +23,7 @@ namespace FunExplorerBot.Dialogs
         {
             var activity = await result as Activity;
             await context.PostAsync("Welcome to fun explorer bot! How may I help you?");
-
+            context.ConversationData.SetValue<string>( KeyEventCreatorId , activity.From.Id); 
            
            // context.Call(Util.Helper.MakeEventDialog(), ResumeAfterOptionDialog ); 
            this.ShowOptions(context);      

@@ -69,7 +69,7 @@ namespace FunExplorerBot.Dialogs
         {
             try
             {
-                var message = await result;
+                //var message = await result;
                 await context.PostAsync("Great! we have completed your request");
             }
             catch (Exception ex)

@@ -9,7 +9,7 @@ namespace FunExplorerBot
     {
 
         public const string ConnectionString =
-            "";
+            "colindev.redis.cache.windows.net:6380,password=IyAlWWKdWV0hQFg7w5zIaity106BK5foxrL4f2k0mp0=,ssl=True,abortConnect=False";
 
         private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(
             () => ConnectionMultiplexer.Connect(ConnectionString)
@@ -17,12 +17,12 @@ namespace FunExplorerBot
 
         public static ConnectionMultiplexer Connection => lazyConnection.Value;
 
-        public IDatabase Cache => RedisManager.Connection.GetDatabase();
+        public IDatabase Db => RedisManager.Connection.GetDatabase();
 
         public bool TryGet(string key, out string value)
         {
             bool exist = true;
-            var v = this.Cache.StringGet(key);
+            var v = this.Db.StringGet(key);
             if (v == RedisValue.Null)
             {
                 exist = false;

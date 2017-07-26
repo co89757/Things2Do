@@ -56,10 +56,13 @@ namespace FunExplorerBot.Dialogs
             {
                 int count = events.Count();
                 await context.PostAsync($"We found {count} events matching your search!");
+                Event[] results = events.Select(ee => JsonConvert.DeserializeObject<Event>(ee)).ToArray();
+                //convert them to card attachments
+                var resultCards = results.Select(r => r.ToCard());
                 Event e = JsonConvert.DeserializeObject<Event>(firstEvent);
                 var reply = context.MakeMessage();
-                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                reply.Attachments = new List<Attachment>() {e.ToCard()};
+                reply.AttachmentLayout = AttachmentLayoutTypes.List;
+                reply.Attachments = new List<Attachment>(resultCards) ;
                 await context.PostAsync(reply);
             }
             

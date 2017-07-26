@@ -67,7 +67,23 @@ namespace FunExplorerBot.Model
             card.Body.Add(
                 new TextBlock()
                 {
-                    Text = Description,
+                    Text = $"Location: {Location}",
+                    Size = TextSize.Medium,
+                    Weight = TextWeight.Normal
+                }
+                );
+            card.Body.Add(
+                new TextBlock()
+                {
+                    Text = $"When: {Time}",
+                    Size = TextSize.Medium,
+                    Weight = TextWeight.Normal
+                }
+                );
+            card.Body.Add(
+                new TextBlock()
+                {
+                    Text = $"What: {Description}",
                     Size = TextSize.Medium,
                     Weight = TextWeight.Normal
                 }

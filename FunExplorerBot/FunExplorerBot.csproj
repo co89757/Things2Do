@@ -48,6 +48,12 @@
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Bot.Builder, Version=3.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\Microsoft.Bot.Builder.3.8.0\lib\net46\Microsoft.Bot.Builder.dll</HintPath>
     </Reference>
@@ -81,6 +87,7 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -103,8 +110,22 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\FunData.mdf" />
+    <Content Include="App_Data\FunData_log.ldf">
+      <DependentUpon>FunData.mdf</DependentUpon>
+    </Content>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
+    <Content Include="Model\FunData.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FunData.Context.cs</LastGenOutput>
+      <DependentUpon>FunData.edmx</DependentUpon>
+    </Content>
+    <Content Include="Model\FunData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FunData.edmx</DependentUpon>
+      <LastGenOutput>FunData.cs</LastGenOutput>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -121,6 +142,24 @@
     </Compile>
     <Compile Include="Model\Event.cs" />
     <Compile Include="Model\EventQuery.cs" />
+    <Compile Include="Model\FunData.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunData.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FunData.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FunData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FunData.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\FunEvent.cs">
+      <DependentUpon>FunData.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\Helper.cs" />
   </ItemGroup>
@@ -128,12 +167,22 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <EntityDeploy Include="Model\FunData.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FunData.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Model\FunData.edmx.diagram">
+      <DependentUpon>FunData.edmx</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

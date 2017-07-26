@@ -32,7 +32,17 @@ namespace FunExplorerBot.Dialogs
         private OnCompletionAsyncDelegate<Event> processEventCreate = async (context, state) =>
         {
             //TODO business logic for event creation, like sending notification etc. 
+            FunDataEntities DB = new FunDataEntities();
+            FunEvent NewFunEvent = new FunEvent();
+            NewFunEvent.Location = state.Location;
+            NewFunEvent.EventName = state.Type.ToString();
+            NewFunEvent.StartTime = state.Time;
+            NewFunEvent.Duration = state.Time.AddHours(1);
+            NewFunEvent.Memo = state.Tags.ToString();
+            DB.FunEvents.Add(NewFunEvent);
+            DB.SaveChanges();
             await context.PostAsync($"Creating event for you...");
+            
         };
 
         private async Task ResumeEventCreateFormDialog(IDialogContext context, IAwaitable<Event> result)

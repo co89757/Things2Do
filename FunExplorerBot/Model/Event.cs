@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
+using AdaptiveCards;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -38,6 +41,8 @@ namespace FunExplorerBot.Model
         
         [Prompt("Where do you want to have this event?")]
         public string Location;
+        [Prompt("Give your event a brief title")]
+        public string Summary;
         [Prompt("How would you describle your event?")]
         public string Description;
         [Prompt("Add tags for this event to help others find you!{||}")]
@@ -47,6 +52,43 @@ namespace FunExplorerBot.Model
         public string ChanelId;
         public string CreatorId;
         public string CreatorName;
+
+        public Attachment ToCard()
+        {
+             
+            //TODO
+            AdaptiveCard card = new AdaptiveCard();
+            card.Body.Add(new TextBlock()
+            {
+                Text = $"{this.Type} Event: {this.Summary}",
+                Size = TextSize.Large,
+                Weight = TextWeight.Bolder
+            });
+            card.Body.Add(
+                new TextBlock()
+                {
+                    Text = Description,
+                    Size = TextSize.Medium,
+                    Weight = TextWeight.Normal
+                }
+                );
+            card.Actions.Add(new HttpAction()
+            {
+                Title = "I'm interested"
+                
+            });
+            card.Actions.Add(new HttpAction()
+            {
+                Title = "Not for me"
+            });
+
+            Attachment attachment = new Attachment()
+            {
+                ContentType =  AdaptiveCard.ContentType,
+                Content = card
+            };
+            return attachment;
+        }
 
         public string EventKey
         {

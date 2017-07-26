@@ -29,32 +29,44 @@ namespace FunExplorerBot.Dialogs
                 .Field(nameof(Event.Type))
                 .Field(nameof(Event.Time))
                 .Field(nameof(Event.Location))
+                .Field(nameof(Event.Summary))
                 .Field(nameof(Event.Description))
                 .Field(nameof(Event.Tags))
                 .OnCompletion(processEventCreate)
                 .Build();
         }
 
-        private OnCompletionAsyncDelegate<Event> processEventCreate = async (context, state) =>
+        private OnCompletionAsyncDelegate<Event> processEventCreate = async (context, ev) =>
         {
             //TODO business logic for event creation, like sending notification etc. 
-            
+            await context.PostAsync($"start to persist event !");
+
+            ev.ChanelId = context.Activity.ChannelId;
+            ev.CreatorId = context.Activity.From.Id;
+            ev.CreatorName = context.Activity.From.Name;
+            string ekey = ev.EventKey;
+            var eventJson = JsonConvert.SerializeObject(ev);
+            await context.PostAsync($"{eventJson}");
+            //var ee = JsonConvert.DeserializeObject<Event>(eventJson);
+            var db = new RedisManager();
+            db.Db.SetAdd(ekey, eventJson);
+            //var v = db.Db.SetMembers(ekey);
             await context.PostAsync($"Creating event for you...");
         };
 
         private async Task ResumeEventCreateFormDialog(IDialogContext context, IAwaitable<Event> result)
         {
             //TODO logic to send notif on resume
-            Event ev = await result;
-                //notify 
-            ev.ChanelId = context.Activity.ChannelId;
-            ev.CreatorId = context.Activity.From.Id;
-            ev.CreatorName = context.Activity.From.Name;
-            var eventJson = JsonConvert.SerializeObject(ev);
-            //var ee = JsonConvert.DeserializeObject<Event>(eventJson);
-            var db = new RedisManager();
-            db.Cache.SetAdd(ev.EventKey, eventJson);
-            //await context.PostAsync($"Your event has been persisted !");
+            //Event ev = await result;
+            //    //notify 
+            //ev.ChanelId = context.Activity.ChannelId;
+            //ev.CreatorId = context.Activity.From.Id;
+            //ev.CreatorName = context.Activity.From.Name;
+            //var eventJson = JsonConvert.SerializeObject(ev);
+            ////var ee = JsonConvert.DeserializeObject<Event>(eventJson);
+            //var db = new RedisManager();
+            //db.Db.SetAdd(ev.EventKey, eventJson);
+            await context.PostAsync($"woohoo!!");
             context.Done<object>(null);
         }
     }

@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using FunExplorerBot.Model;
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 
 namespace FunExplorerBot.Dialogs
 {
@@ -39,11 +42,27 @@ namespace FunExplorerBot.Dialogs
         private async Task ResumeEventSearchFormDialog(IDialogContext context, IAwaitable<EventQuery> result)
         {
             //TODO show available events
+            //var conn = new ConnectorClient(new Uri(context.Activity.ServiceUrl));
             EventQuery query = await result;
             query.ChanelId = context.Activity.ChannelId;
             var rd = new RedisManager();
-            var x = rd.Cache.SetLength(query.ToKey());
-            await context.PostAsync($"We found {x} events matching your search!");
+            var events = rd.Db.SetMembers(query.ToKey());
+            string firstEvent = (string) events.FirstOrDefault();
+            if (string.IsNullOrEmpty(firstEvent))
+            {
+                await context.PostAsync("We find no matching event, sorry.. try a different search?");
+            }
+            else
+            {
+                int count = events.Count();
+                await context.PostAsync($"We found {count} events matching your search!");
+                Event e = JsonConvert.DeserializeObject<Event>(firstEvent);
+                var reply = context.MakeMessage();
+                reply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                reply.Attachments = new List<Attachment>() {e.ToCard()};
+                await context.PostAsync(reply);
+            }
+            
             context.Done<object>(null);
         }
     }

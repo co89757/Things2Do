@@ -9,7 +9,7 @@ namespace FunExplorerBot
     {
 
         public const string ConnectionString =
-            "colindev.redis.cache.windows.net:6380,password=IyAlWWKdWV0hQFg7w5zIaity106BK5foxrL4f2k0mp0=,ssl=True,abortConnect=False";
+            "";
 
         private static Lazy<ConnectionMultiplexer> lazyConnection = new Lazy<ConnectionMultiplexer>(
             () => ConnectionMultiplexer.Connect(ConnectionString)

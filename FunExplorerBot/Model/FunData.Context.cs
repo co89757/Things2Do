@@ -26,5 +26,6 @@ namespace FunExplorerBot.Model
         }
     
         public virtual DbSet<FunEvent> FunEvents { get; set; }
+        public virtual DbSet<UserEvent> UserEvents { get; set; }
     }
 }

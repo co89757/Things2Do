@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="0bb43d8c73f840a29813b5b7bb2f8317" Name="Diagram1">
         <EntityTypeShape EntityType="FunDataModel.FunEvent" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FunDataModel.UserEvent" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
